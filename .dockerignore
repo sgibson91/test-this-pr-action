@@ -1,0 +1,9 @@
+# Folders to be ignored
+.git
+.github
+tests
+
+# Files to be ignored
+dev-requirements.txt
+LICENSE
+README.md
