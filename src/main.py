@@ -28,7 +28,7 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
 PROJECT_NAME = REPOSITORY.split("/")[-1]
 
 # Clone the parent repo
-run_cmd([
+_ = run_cmd([
     "git",
     "clone",
     f"https://github.com/{REPOSITORY}.git",
@@ -38,7 +38,7 @@ run_cmd([
 os.chdir(PROJECT_NAME)
 
 # Add fork as remote
-run_cmd([
+_ = run_cmd([
     "git",
     "remote",
     "add",
@@ -47,7 +47,7 @@ run_cmd([
 ])
 
 # Create a new branch
-run_cmd([
+_ = run_cmd([
     "git",
     "checkout",
     "-b",
@@ -55,14 +55,14 @@ run_cmd([
 ])
 
 # Merge PR branch into new branch
-run_cmd([
+_ = run_cmd([
     "git",
     "merge",
     f"fork/{PR_BRANCH_NAME}",
 ])
 
 # Push new branch to parent repo
-run_cmd([
+_ = run_cmd([
     "git",
     "push",
     "origin",
