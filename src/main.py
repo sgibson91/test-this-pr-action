@@ -3,9 +3,13 @@ from utils import post_request, run_cmd
 
 # Set required environment variables
 REPOSITORY = os.environ["REPOSITORY"] if "REPOSITORY" in os.environ else None
-REPOSITORY_OWNER = os.environ["REPOSITORY_OWNER"] if "REPOSITORY_OWNER" in os.environ else None
+REPOSITORY_OWNER = (
+    os.environ["REPOSITORY_OWNER"] if "REPOSITORY_OWNER" in os.environ else None
+)
 PR_NUMBER = os.environ["PR_NUMBER"] if "PR_NUMBER" in os.environ else None
-PR_BRANCH_NAME = os.environ["PR_BRANCH_NAME"] if "PR_BRANCH_NAME" in os.environ else None
+PR_BRANCH_NAME = (
+    os.environ["PR_BRANCH_NAME"] if "PR_BRANCH_NAME" in os.environ else None
+)
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"] if "GITHUB_TOKEN" in os.environ else None
 
 # Set optional environment variables
@@ -22,68 +26,80 @@ REQUIRED_ENV_VARS = {
 
 for VARNAME, VAR in REQUIRED_ENV_VARS.items():
     if VAR is None:
-        raise ValueError(
-            f"{VARNAME} must be set"
-        )
+        raise ValueError(f"{VARNAME} must be set")
 
 PROJECT_NAME = REPOSITORY.split("/")[-1]
 
 # Clone the parent repo
-_ = run_cmd([
-    "git",
-    "clone",
-    f"https://github.com/{REPOSITORY}.git",
-])
+_ = run_cmd(
+    [
+        "git",
+        "clone",
+        f"https://github.com/{REPOSITORY}.git",
+    ]
+)
 
 # Change working directory
 os.chdir(PROJECT_NAME)
 
 # Add fork as remote
-_ = run_cmd([
-    "git",
-    "remote",
-    "add",
-    "fork",
-    f"https://github.com/{REPOSITORY_OWNER}/{PROJECT_NAME}.git",
-])
+_ = run_cmd(
+    [
+        "git",
+        "remote",
+        "add",
+        "fork",
+        f"https://github.com/{REPOSITORY_OWNER}/{PROJECT_NAME}.git",
+    ]
+)
 
 # Create a new branch
-_ = run_cmd([
-    "git",
-    "checkout",
-    "-b",
-    f"test-this-pr/{PR_NUMBER}",
-])
+_ = run_cmd(
+    [
+        "git",
+        "checkout",
+        "-b",
+        f"test-this-pr/{PR_NUMBER}",
+    ]
+)
 
 # Fetch the fork
-_ = run_cmd([
-    "git",
-    "fetch",
-    "fork",
-])
+_ = run_cmd(
+    [
+        "git",
+        "fetch",
+        "fork",
+    ]
+)
 
 # Merge PR branch into new branch
-_ = run_cmd([
-    "git",
-    "merge",
-    f"fork/{PR_BRANCH_NAME}",
-])
+_ = run_cmd(
+    [
+        "git",
+        "merge",
+        f"fork/{PR_BRANCH_NAME}",
+    ]
+)
 
 # Push new branch to parent repo
-_ = run_cmd([
-    "git",
-    "push",
-    "origin",
-    f"test-this-pr/{PR_NUMBER}",
-])
+_ = run_cmd(
+    [
+        "git",
+        "push",
+        "origin",
+        f"test-this-pr/{PR_NUMBER}",
+    ]
+)
 
 # Get the default branch of the parent repo
 # to set as base branch of Pull Request
-result = run_cmd([
-    "git",
-    "symbolic-ref",
-    "refs/remotes/origin/HEAD",
-])
+result = run_cmd(
+    [
+        "git",
+        "symbolic-ref",
+        "refs/remotes/origin/HEAD",
+    ]
+)
 base_branch = result["output"].split("/")[-1]
 
 # Create Pull Request template
