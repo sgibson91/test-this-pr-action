@@ -106,3 +106,10 @@ if APPLY_LABELS is not None:
         headers={"Authorization": f"token {GITHUB_TOKEN}"},
         json={"labels": APPLY_LABELS.split(" ")},
     )
+
+# Add comment to the old PR
+post_request(
+    f"https://api.github.com/repos/{REPOSITORY}/issues/{PR_NUMBER}/comments",
+    headers={"Authorization": f"token {GITHUB_TOKEN}"},
+    json={"body": f"This Pull Request is now being tested in {PR_URL}"},
+)
