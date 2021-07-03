@@ -98,3 +98,11 @@ resp = post_request(
 
 PR_URL = resp["html_url"]
 PR_URL_API = resp["issue_url"]
+
+# Add labels to the new PR
+if APPLY_LABELS is not None:
+    post_request(
+        PR_URL_API + "/labels",
+        headers={"Authorization": f"token {GITHUB_TOKEN}"},
+        json={"labels": APPLY_LABELS.split(" ")},
+    )
