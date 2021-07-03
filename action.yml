@@ -1,0 +1,36 @@
+name: "Test this PR"
+author: "Sarah Gibson"
+description: |
+  Move a PR from a forked repo into the parent repo so that workflows that
+  require secrets can be run
+inputs:
+  repository:
+    description: "The repository id in the form 'owner/project'"
+    required: true
+  repository-owner:
+    description: "The account that forked the parent repo"
+    required: true
+  pr-number:
+    description: "The number of the Pull Request to move into the parent repo"
+    required: true
+  pr-branch-name:
+    description: "The name of the source branch for the forked Pull Request"
+    required: true
+  github-token:
+    description: |
+      A GitHub token with enough permissions to write to the parent repo
+    required: true
+  apply-labels:
+    description: |
+      A whitespace separated list of labels to apply to the new Pull Request
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.repository }}
+    - ${{ inputs.repository-owner }}
+    - ${{ inputs.pr-number }}
+    - ${{ inputs.pr-branch-name }}
+    - ${{ inputs.github-token }}
+    - ${{ inputs.apply-labels }}

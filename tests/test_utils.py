@@ -25,9 +25,7 @@ def test_post_request():
     test_header = {"Authorization": "token ThIs_Is_A_ToKeN"}
     json = {"Payload": "Send this with the request"}
 
-    responses.add(
-        responses.POST, test_url, json={"Request": "Sent"}, status=200
-    )
+    responses.add(responses.POST, test_url, json={"Request": "Sent"}, status=200)
 
     post_request(test_url, headers=test_header, json=json)
 
