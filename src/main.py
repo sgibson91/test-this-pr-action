@@ -55,6 +55,13 @@ _ = run_cmd([
     f"test-this-pr/{PR_NUMBER}",
 ])
 
+# Fetch the fork
+_ = run_cmd([
+    "git",
+    "fetch",
+    "fork",
+])
+
 # Merge PR branch into new branch
 _ = run_cmd([
     "git",
