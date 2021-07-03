@@ -4,7 +4,7 @@ Helper functions
 import subprocess
 
 
-def run_cmd(cmd: list) -> dict:
+def run_cmd(cmd: list) -> None:
     """Use Popen to run a bash command in a sub-shell
 
     Args:
@@ -26,4 +26,7 @@ def run_cmd(cmd: list) -> dict:
         "err_msg": msgs[1].decode(encoding=("utf-8")).strip("\n"),
     }
 
-    return result
+    if result["returncode"] != 0:
+        raise RuntimeError(
+            result["err_msg"]
+        )
