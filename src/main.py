@@ -1,8 +1,8 @@
 import os
 
 # Set required environment variables
-REPO_NAME = os.environ["REPO_NAME"] if "REPO_NAME" in os.environ else None
-FORK_ACCOUNT = os.environ["FORK_ACCOUNT"] if "FORK_ACCOUNT" in os.environ else None
+REPOSITORY = os.environ["REPOSITORY"] if "REPOSITORY" in os.environ else None
+REPOSITORY_OWNER = os.environ["REPOSITORY_OWNER"] if "REPOSITORY_OWNER" in os.environ else None
 PR_NUMBER = os.environ["PR_NUMBER"] if "PR_NUMBER" in os.environ else None
 PR_BRANCH_NAME = os.environ["PR_BRANCH_NAME"] if "PR_BRANCH_NAME" in os.environ else None
 
@@ -12,7 +12,8 @@ CLOSE_PR = True if "CLOSE_PR" in os.environ else False
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
-    "FORK_ACCOUNT": FORK_ACCOUNT,
+    "REPOSITORY": REPOSITORY,
+    "REPOSITORY_OWNER": REPOSITORY_OWNER,
     "PR_NUMBER": PR_NUMBER,
     "PR_BRANCH_NAME": PR_BRANCH_NAME,
 }
@@ -22,3 +23,5 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
         raise ValueError(
             f"{VARNAME} must be set"
         )
+
+PROJECT_NAME = REPOSITORY.split("/")[-1]
