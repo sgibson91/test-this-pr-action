@@ -10,7 +10,6 @@ GITHUB_TOKEN = os.environ["GITHUB_TOKEN"] if "GITHUB_TOKEN" in os.environ else N
 
 # Set optional environment variables
 APPLY_LABELS = os.environ["APPLY_LABELS"] if "APPLY_LABELS" in os.environ else None
-CLOSE_PR = True if "CLOSE_PR" in os.environ else False
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
