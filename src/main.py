@@ -1,5 +1,5 @@
 import os
-from utils import run_cmd
+from utils import post_request, run_cmd
 
 # Set required environment variables
 REPOSITORY = os.environ["REPOSITORY"] if "REPOSITORY" in os.environ else None
@@ -70,3 +70,31 @@ _ = run_cmd([
     "origin",
     f"test-this-pr/{PR_NUMBER}",
 ])
+
+# Get the default branch of the parent repo
+# to set as base branch of Pull Request
+result = run_cmd([
+    "git",
+    "symbolic-ref",
+    "refs/remotes/origin/HEAD",
+])
+base_branch = result["output"].split("/")[-1]
+
+# Create Pull Request template
+pr = {
+    "title": f"Testing PR #{PR_NUMBER}",
+    "body": f"This PR is a copy of PR #{PR_NUMBER} which came from a fork. Tests that require secrets can now be run on this PR.",
+    "base": base_branch,
+    "head": f"test-this-pr/{PR_NUMBER}",
+}
+
+# Create the Pull Request
+resp = post_request(
+    f"https://api.github.com/repos/{REPOSITORY}/pulls",
+    headers={"Authorization": f"token {GITHUB_TOKEN}"},
+    json=pr,
+    return_json=True,
+)
+
+PR_URL = resp["html_url"]
+PR_URL_API = resp["issue_url"]
