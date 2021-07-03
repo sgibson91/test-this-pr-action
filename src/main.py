@@ -2,18 +2,26 @@ import os
 from utils import post_request, run_cmd
 
 # Set required environment variables
-REPOSITORY = os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
+REPOSITORY = (
+    os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
+)
 REPOSITORY_OWNER = (
-    os.environ["INPUT_REPOSITORY_OWNER"] if "INPUT_REPOSITORY_OWNER" in os.environ else None
+    os.environ["INPUT_REPOSITORY_OWNER"]
+    if "INPUT_REPOSITORY_OWNER" in os.environ
+    else None
 )
 PR_NUMBER = os.environ["INPUT_PR_NUMBER"] if "INPUT_PR_NUMBER" in os.environ else None
 PR_BRANCH_NAME = (
     os.environ["INPUT_PR_BRANCH_NAME"] if "InPUT_PR_BRANCH_NAME" in os.environ else None
 )
-GITHUB_TOKEN = os.environ["INPUT_GITHUB_TOKEN"] if "INPUT_GITHUB_TOKEN" in os.environ else None
+GITHUB_TOKEN = (
+    os.environ["INPUT_GITHUB_TOKEN"] if "INPUT_GITHUB_TOKEN" in os.environ else None
+)
 
 # Set optional environment variables
-APPLY_LABELS = os.environ["INPUT_APPLY_LABELS"] if "INPUT_APPLY_LABELS" in os.environ else None
+APPLY_LABELS = (
+    os.environ["INPUT_APPLY_LABELS"] if "INPUT_APPLY_LABELS" in os.environ else None
+)
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
