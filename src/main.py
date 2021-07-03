@@ -1,4 +1,5 @@
 import os
+from utils import run_cmd
 
 # Set required environment variables
 REPOSITORY = os.environ["REPOSITORY"] if "REPOSITORY" in os.environ else None
@@ -25,3 +26,45 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
         )
 
 PROJECT_NAME = REPOSITORY.split("/")[-1]
+
+# Clone the parent repo
+run_cmd([
+    "git",
+    "clone",
+    f"https://github.com/{REPOSITORY}.git",
+])
+
+# Change working directory
+os.chdir(PROJECT_NAME)
+
+# Add fork as remote
+run_cmd([
+    "git",
+    "remote",
+    "add",
+    "fork",
+    f"https://github.com/{REPOSITORY_OWNER}/{PROJECT_NAME}.git",
+])
+
+# Create a new branch
+run_cmd([
+    "git",
+    "checkout",
+    "-b",
+    f"test-this-pr/{PR_NUMBER}",
+])
+
+# Merge PR branch into new branch
+run_cmd([
+    "git",
+    "merge",
+    f"fork/{PR_BRANCH_NAME}",
+])
+
+# Push new branch to parent repo
+run_cmd([
+    "git",
+    "push",
+    "origin",
+    f"test-this-pr/{PR_NUMBER}",
+])
