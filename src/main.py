@@ -6,6 +6,7 @@ REPOSITORY = os.environ["REPOSITORY"] if "REPOSITORY" in os.environ else None
 REPOSITORY_OWNER = os.environ["REPOSITORY_OWNER"] if "REPOSITORY_OWNER" in os.environ else None
 PR_NUMBER = os.environ["PR_NUMBER"] if "PR_NUMBER" in os.environ else None
 PR_BRANCH_NAME = os.environ["PR_BRANCH_NAME"] if "PR_BRANCH_NAME" in os.environ else None
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"] if "GITHUB_TOKEN" in os.environ else None
 
 # Set optional environment variables
 APPLY_LABELS = os.environ["APPLY_LABELS"] if "APPLY_LABELS" in os.environ else None
@@ -17,6 +18,7 @@ REQUIRED_ENV_VARS = {
     "REPOSITORY_OWNER": REPOSITORY_OWNER,
     "PR_NUMBER": PR_NUMBER,
     "PR_BRANCH_NAME": PR_BRANCH_NAME,
+    "GITHUB_TOKEN": GITHUB_TOKEN,
 }
 
 for VARNAME, VAR in REQUIRED_ENV_VARS.items():
