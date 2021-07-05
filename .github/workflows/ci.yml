@@ -24,6 +24,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  docker-test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+
+      - name: Test the Docker build
+        uses: docker/build-push-action@v2
+
   lint-and-format:
     runs-on: ubuntu-latest
 
