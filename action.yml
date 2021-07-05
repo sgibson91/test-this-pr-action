@@ -7,7 +7,7 @@ inputs:
   repository:
     description: "The repository id in the form 'owner/project'"
     required: true
-  repository-owner:
+  fork-owner:
     description: "The account that forked the parent repo"
     required: true
   pr-number:
@@ -29,7 +29,7 @@ runs:
   image: "Dockerfile"
   args:
     - ${{ inputs.repository }}
-    - ${{ inputs.repository-owner }}
+    - ${{ inputs.fork-owner }}
     - ${{ inputs.pr-number }}
     - ${{ inputs.pr-branch-name }}
     - ${{ inputs.github-token }}
