@@ -5,9 +5,9 @@ from utils import post_request, run_cmd
 REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
-REPOSITORY_OWNER = (
-    os.environ["INPUT_REPOSITORY_OWNER"]
-    if "INPUT_REPOSITORY_OWNER" in os.environ
+FORK_OWNER = (
+    os.environ["INPUT_FORK_OWNER"]
+    if "INPUT_FORK_OWNER" in os.environ
     else None
 )
 PR_NUMBER = os.environ["INPUT_PR_NUMBER"] if "INPUT_PR_NUMBER" in os.environ else None
@@ -26,7 +26,7 @@ APPLY_LABELS = (
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
     "REPOSITORY": REPOSITORY,
-    "REPOSITORY_OWNER": REPOSITORY_OWNER,
+    "FORK_OWNER": FORK_OWNER,
     "PR_NUMBER": PR_NUMBER,
     "PR_BRANCH_NAME": PR_BRANCH_NAME,
     "GITHUB_TOKEN": GITHUB_TOKEN,
@@ -57,7 +57,7 @@ _ = run_cmd(
         "remote",
         "add",
         "fork",
-        f"https://github.com/{REPOSITORY_OWNER}/{PROJECT_NAME}.git",
+        f"https://github.com/{FORK_OWNER}/{PROJECT_NAME}.git",
     ]
 )
 

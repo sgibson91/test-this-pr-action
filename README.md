@@ -17,7 +17,7 @@ We found a lot of extra infrastructure was required to setup this action (e.g. a
 This is the name of the parent repository in the form `owner/project`.
 It can be accessed during a workflow run with the `${{ github.repository }}` context.
 
-### `repository-owner`
+### `fork-owner`
 
 This is the account that holds the fork of the parent repository.
 It can be accessed during a workflow run _triggered by a pull request event_ in the `${{ github.event.pull_request.head.repo.owner.login }}` context.
@@ -70,7 +70,7 @@ jobs:
       - uses: sgibson91/test-this-pr-action@master
         with:
           repository: ${{ github.repository }}
-          repository-owner: ${{ github.event.pull_request.head.repo.owner.login }}
+          fork-owner: ${{ github.event.pull_request.head.repo.owner.login }}
           pr-number: ${{ github.event.number }}
           pr-branch-name: ${{ github.head_ref }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
