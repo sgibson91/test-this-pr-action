@@ -6,9 +6,7 @@ REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
 FORK_OWNER = (
-    os.environ["INPUT_FORK_OWNER"]
-    if "INPUT_FORK_OWNER" in os.environ
-    else None
+    os.environ["INPUT_FORK_OWNER"] if "INPUT_FORK_OWNER" in os.environ else None
 )
 PR_NUMBER = os.environ["INPUT_PR_NUMBER"] if "INPUT_PR_NUMBER" in os.environ else None
 PR_BRANCH_NAME = (
