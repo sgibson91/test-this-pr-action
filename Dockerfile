@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Install git
-RUN apt-get -y update && apt-get -y install git
+RUN apt-get -y update && apt-get -y install git=2.32.0 --no-install-recommends
 
 # Create and set the 'app' working directory
 RUN mkdir /app
@@ -12,7 +12,7 @@ WORKDIR /app
 COPY . /app
 
 # Upgrade pip and install dependencies
-RUN pip install -U pip && pip install -r /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Make main.py executable
 RUN ["chmod", "+x", "/app/src/main.py"]
