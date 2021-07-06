@@ -7,16 +7,16 @@ inputs:
   repository:
     description: "The repository id in the form 'owner/project'"
     required: false
-    default: github.repository
+    default: ${{ github.repository }}
   github-issue-context:
     description: "The workflow context from the issue that triggered the run"
     required: false
-    default: github.event.issue
+    default: ${{ github.event.issue }}
   github-token:
     description: |
       A GitHub token with enough permissions to write to the parent repo
     required: false
-    default: github.token
+    default: ${{ github.token }}
 runs:
   using: "docker"
   image: "Dockerfile"
