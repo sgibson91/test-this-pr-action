@@ -9,10 +9,14 @@ REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
 GITHUB_ISSUE_CONTEXT = (
-    json.loads(os.environ["INPUT_GITHUB-ISSUE-CONTEXT"]) if "INPUT_GITHUB-ISSUE-CONTEXT" in os.environ else None
+    json.loads(os.environ["INPUT_GITHUB-ISSUE-CONTEXT"])
+    if "INPUT_GITHUB-ISSUE-CONTEXT" in os.environ
+    else None
 )
 GITHUB_TOKEN = (
-    github_token() if "INPUT_GITHUB-TOKEN" not in os.environ else os.environ["INPUT_GITHUB-TOKEN"]
+    github_token()
+    if "INPUT_GITHUB-TOKEN" not in os.environ
+    else os.environ["INPUT_GITHUB-TOKEN"]
 )
 
 # Check required environment variables are set
@@ -106,4 +110,9 @@ _ = run_cmd(
 )
 
 # Add comment to the old PR
-api.issues.create_comment(REPOSITORY.split("/")[0], REPOSITORY.split("/")[-1], PR_NUMBER, body=f"This Pull Request is now being tested on the following branch: https://github.com/binderhub-test-org/pr-test/tree/test-this-pr/{PR_NUMBER}")
+api.issues.create_comment(
+    REPOSITORY.split("/")[0],
+    REPOSITORY.split("/")[-1],
+    PR_NUMBER,
+    body=f"This Pull Request is now being tested on the following branch: https://github.com/binderhub-test-org/pr-test/tree/test-this-pr/{PR_NUMBER}",
+)
