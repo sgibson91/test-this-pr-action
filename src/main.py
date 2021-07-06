@@ -65,7 +65,7 @@ _ = run_cmd(
     [
         "git",
         "clone",
-        f"https://github.com/{REPOSITORY}.git",
+        f"https://{GITHUB_TOKEN}:x-oauth-basic@github.com/{REPOSITORY}.git",
     ]
 )
 
@@ -79,7 +79,7 @@ _ = run_cmd(
         "remote",
         "add",
         "fork",
-        f"https://github.com/{FORK_OWNER}/{REPO_NAME}.git",
+        f"https://{GITHUB_TOKEN}:x-oauth-basic@github.com/{FORK_OWNER}/{REPO_NAME}.git",
     ]
 )
 
