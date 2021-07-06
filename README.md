@@ -12,7 +12,7 @@ This repository is a Docker-based GitHub Action that will push the changes of a 
 | Input variable | Description | Required? | Default value |
 | :--- | :--- | :--- | :--- |
 | `repository` | The name of the parent repository in the form `owner/project` | No | `${{ github.repository }}` |
-| `github-issue-context` | The context of the issue the trigger comment was left on (equivalent to a Pull Request to GitHub's API). From this context we can establish who owns the fork the PR originates from and the branch name. | No | `${{ github.event.issue }}` |
+| `github-context` | The event context of the triggered workflow. From this context we can establish who owns the fork the PR originates from and the branch name. | No | `${{ github.event }}` |
 | `github-token` | A GitHub token with read/write access to the parent repository | No | `${{ github.token }}` |
 
 ## Example Usage

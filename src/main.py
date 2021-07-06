@@ -8,9 +8,9 @@ from ghapi.actions import github_token
 REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
-GITHUB_ISSUE_CONTEXT = (
-    json.loads(os.environ["INPUT_GITHUB-ISSUE-CONTEXT"])
-    if "INPUT_GITHUB-ISSUE-CONTEXT" in os.environ
+GITHUB_CONTEXT = (
+    json.loads(os.environ["INPUT_GITHUB-CONTEXT"])
+    if "INPUT_GITHUB-CONTEXT" in os.environ
     else None
 )
 GITHUB_TOKEN = (
@@ -22,7 +22,7 @@ GITHUB_TOKEN = (
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
     "REPOSITORY": REPOSITORY,
-    "GITHUB_ISSUE_CONTEXT": GITHUB_ISSUE_CONTEXT,
+    "GITHUB_CONTEXT": GITHUB_CONTEXT,
     "GITHUB_TOKEN": GITHUB_TOKEN,
 }
 
@@ -37,7 +37,7 @@ api = GhApi(token=GITHUB_TOKEN)
 REPO_NAME = REPOSITORY.split("/")[-1]
 
 # Set Pull Request number
-PR_NUMBER = GITHUB_ISSUE_CONTEXT["number"]
+PR_NUMBER = GITHUB_CONTEXT["issue"]["number"]
 
 # Get Pull Request info
 pr_info = api.pulls.get(REPOSITORY.split("/")[0], REPOSITORY.split("/")[-1], PR_NUMBER)
