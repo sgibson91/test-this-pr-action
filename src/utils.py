@@ -1,30 +1,7 @@
 """
 Helper functions
 """
-import requests
 import subprocess
-
-
-def post_request(
-    url: str, headers: dict = None, json: dict = None, return_json: bool = True
-) -> None:
-    """Send a POST request to an HTTP API endpoint
-    Args:
-        url (str): The URL to send the request to
-        headers (dict, optional): A dictionary of any headers to send with the
-            request. Defaults to None.
-        json (dict, optional): A dictionary containing JSON payload to send with
-            the request. Defaults to None.
-        return_json (bool, optional): Return the JSON payload response.
-            Defaults to False.
-    """
-    resp = requests.post(url, headers=headers, json=json)
-
-    if not resp:
-        raise RuntimeError(resp.text)
-
-    if return_json:
-        return resp.json()
 
 
 def run_cmd(cmd: list) -> dict:
