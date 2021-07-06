@@ -14,6 +14,8 @@ This repository is a Docker-based GitHub Action that will push the changes of a 
 | `repository` | The name of the parent repository in the form `owner/project` | No | `${{ github.repository }}` |
 | `github-context` | The event context of the triggered workflow. From this context we can establish who owns the fork the PR originates from and the branch name. | No | `${{ github.event }}` |
 | `github-token` | A GitHub token with read/write access to the parent repository | No | `${{ github.token }}` |
+| `author-name` | The name of the user that will be displayed as the author of the commit | No | `CI User` |
+| `author-email` | The email of the user that will be displayed as the author of the commit | No | `ci-user@github.local` |
 
 ## Example Usage
 
