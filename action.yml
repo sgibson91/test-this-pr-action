@@ -17,6 +17,16 @@ inputs:
       A GitHub token with enough permissions to write to the parent repo
     required: false
     default: ${{ github.token }}
+  author-name:
+    description: |
+      The name of the user that will be displayed as the author of the commit
+    required: false
+    default: "CI User"
+  author-email:
+    description: |
+      The email of the user that will be displayed as the author of the commit
+    required: false
+    default: "ci-user@github.local"
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -24,3 +34,5 @@ runs:
     - ${{ inputs.repository }}
     - ${{ inputs.github-context }}
     - ${{ inputs.github-token }}
+    - ${{ inputs.author-name }}
+    - ${{ inputs.author-email }}
