@@ -1,3 +1,6 @@
+# Use git 2.32.0 image
+FROM bitnami/git:2.32.0
+
 # Use a Python 3.9 slim image
 FROM python:3.9-slim
 
