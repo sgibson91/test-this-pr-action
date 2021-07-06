@@ -18,12 +18,20 @@ GITHUB_TOKEN = (
     if "INPUT_GITHUB-TOKEN" not in os.environ
     else os.environ["INPUT_GITHUB-TOKEN"]
 )
+AUTHOR_NAME = (
+    os.environ["INPUT_AUTHOR-NAME"] if "INPUT_AUTHOR-NAME" in os.environ else None
+)
+AUTHOR_EMAIL = (
+    os.environ["INPUT_AUTHOR-EMAIL"] if "INPUT_AUTHOR-EMAIL" in os.environ else None
+)
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
     "REPOSITORY": REPOSITORY,
     "GITHUB_CONTEXT": GITHUB_CONTEXT,
     "GITHUB_TOKEN": GITHUB_TOKEN,
+    "AUTHOR_NAME": AUTHOR_NAME,
+    "AUTHOR_EMAIL": AUTHOR_EMAIL,
 }
 
 for VARNAME, VAR in REQUIRED_ENV_VARS.items():
@@ -47,6 +55,10 @@ FORK_OWNER = pr_info.head.user.login
 
 # Set Pull Request branch name
 PR_BRANCH_NAME = pr_info.head.ref
+
+# Set git config
+_ = run_cmd(["git", "config", "user.name", AUTHOR_NAME])
+_ = run_cmd(["git", "config", "user.email", AUTHOR_EMAIL])
 
 # Clone the parent repo
 _ = run_cmd(
