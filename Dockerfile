@@ -1,10 +1,8 @@
-# syntax=docker/dockerfile:1
-
-# Use git 2.32.0 image
-FROM bitnami/git:2.32.0
-
 # Use a Python 3.9 slim image
 FROM python:3.9-slim
+
+# Install git
+RUN apt-get -y update && apt-get -y install git
 
 # Create and set the 'app' working directory
 RUN mkdir /app
