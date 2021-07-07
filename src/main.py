@@ -62,12 +62,7 @@ os.chdir(REPO_NAME)
 
 # Fetch the existing merge ref and create a new local branch
 _ = run_cmd(
-    [
-        "git",
-        "fetch",
-        "origin",
-        f"pull/{PR_NUMBER}/merge:test-this-pr/{PR_NUMBER}"
-    ]
+    ["git", "fetch", "origin", f"pull/{PR_NUMBER}/merge:test-this-pr/{PR_NUMBER}"]
 )
 
 # Push new branch to parent repo
