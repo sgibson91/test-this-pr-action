@@ -37,8 +37,8 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
 REPO_NAME = REPOSITORY.split("/")[-1]
 
 # Set git config
-_ = run_cmd(["git", "config", "user.name", AUTHOR_NAME])
-_ = run_cmd(["git", "config", "user.email", AUTHOR_EMAIL])
+_ = run_cmd(["git", "config", "--global", "user.name", AUTHOR_NAME])
+_ = run_cmd(["git", "config", "--global", "user.email", AUTHOR_EMAIL])
 
 # Clone the parent repo
 _ = run_cmd(
