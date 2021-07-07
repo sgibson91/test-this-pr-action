@@ -72,42 +72,13 @@ _ = run_cmd(
 # Change working directory
 os.chdir(REPO_NAME)
 
-# Add fork as remote
-_ = run_cmd(
-    [
-        "git",
-        "remote",
-        "add",
-        "fork",
-        f"https://{GITHUB_TOKEN}:x-oauth-basic@github.com/{FORK_OWNER}/{REPO_NAME}.git",
-    ]
-)
-
-# Create a new branch
-_ = run_cmd(
-    [
-        "git",
-        "checkout",
-        "-b",
-        f"test-this-pr/{PR_NUMBER}",
-    ]
-)
-
-# Fetch the fork
+# Fetch the existing merge ref and create a new local branch
 _ = run_cmd(
     [
         "git",
         "fetch",
-        "fork",
-    ]
-)
-
-# Merge PR branch into new branch
-_ = run_cmd(
-    [
-        "git",
-        "merge",
-        f"fork/{PR_BRANCH_NAME}",
+        "origin",
+        f"pull/{PR_NUMBER}/merge:test-this-pr/{PR_NUMBER}"
     ]
 )
 
