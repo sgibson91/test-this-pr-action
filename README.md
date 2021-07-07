@@ -37,11 +37,9 @@ jobs:
       # Check the comment contains the trigger string
       contains(github.event.comment.body, '/test-this-pr') &&
       # Check the comment author has appropriate permissions
-      (
-        (github.event.issue.author_association == 'OWNER') ||
-        (github.event.issue.author_association == 'COLLABORATOR') ||
-        (github.event.issue.author_association == 'CONTRIBUTOR') ||
-        (github.event.issue.author_association == 'MEMBER')
+      contains(
+        ['OWNER', 'COLLABORATOR', 'CONTRIBUTOR', 'MEMBER'],
+        github.event.comment.author_association
       )
 
     steps:
