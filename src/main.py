@@ -8,11 +8,7 @@ from ghapi.actions import github_token
 REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
-GITHUB_CONTEXT = (
-    json.loads(os.environ["INPUT_GITHUB-CONTEXT"])
-    if "INPUT_GITHUB-CONTEXT" in os.environ
-    else None
-)
+PR_NUMBER = os.environ["INPUT_PR-NUMBER"] if "INPUT_PR-NUMBER" in os.environ else None
 GITHUB_TOKEN = (
     github_token()
     if "INPUT_GITHUB-TOKEN" not in os.environ
@@ -28,7 +24,7 @@ AUTHOR_EMAIL = (
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
     "REPOSITORY": REPOSITORY,
-    "GITHUB_CONTEXT": GITHUB_CONTEXT,
+    "PR_NUMBER": PR_NUMBER,
     "GITHUB_TOKEN": GITHUB_TOKEN,
     "AUTHOR_NAME": AUTHOR_NAME,
     "AUTHOR_EMAIL": AUTHOR_EMAIL,
@@ -40,9 +36,6 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
 
 # Set repository name
 REPO_NAME = REPOSITORY.split("/")[-1]
-
-# Set Pull Request number
-PR_NUMBER = GITHUB_CONTEXT["issue"]["number"]
 
 # Set git config
 _ = run_cmd(["git", "config", "user.name", AUTHOR_NAME])
