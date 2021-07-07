@@ -76,5 +76,8 @@ api.issues.create_comment(
     REPOSITORY.split("/")[0],
     REPOSITORY.split("/")[-1],
     PR_NUMBER,
-    body=f"This Pull Request is now being tested on the following branch: https://github.com/binderhub-test-org/pr-test/tree/test-this-pr/{PR_NUMBER}",
+    body=f"""
+This Pull Request is now being tested on the [`test-this-pr/{PR_NUMBER}`](https://github.com/binderhub-test-org/pr-test/tree/test-this-pr/{PR_NUMBER}) branch.
+See the test progress in [GitHub Actions](https://github.com/{REPOSITORY}/actions?query=branch%3Atest-this-pr%2F{PR_NUMBER}).
+""",
 )
