@@ -116,6 +116,7 @@ _ = run_cmd(
     [
         "git",
         "push",
+        "--force",
         "origin",
         f"test-this-pr/{PR_NUMBER}",
     ]
