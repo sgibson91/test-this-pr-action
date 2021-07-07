@@ -47,15 +47,6 @@ REPO_NAME = REPOSITORY.split("/")[-1]
 # Set Pull Request number
 PR_NUMBER = GITHUB_CONTEXT["issue"]["number"]
 
-# Get Pull Request info
-pr_info = api.pulls.get(REPOSITORY.split("/")[0], REPOSITORY.split("/")[-1], PR_NUMBER)
-
-# Set fork owner
-FORK_OWNER = pr_info.head.user.login
-
-# Set Pull Request branch name
-PR_BRANCH_NAME = pr_info.head.ref
-
 # Set git config
 _ = run_cmd(["git", "config", "user.name", AUTHOR_NAME])
 _ = run_cmd(["git", "config", "user.email", AUTHOR_EMAIL])
