@@ -38,23 +38,11 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
     if VAR is None:
         raise ValueError(f"{VARNAME} must be set")
 
-# Initialise GhApi
-api = GhApi(token=GITHUB_TOKEN)
-
 # Set repository name
 REPO_NAME = REPOSITORY.split("/")[-1]
 
 # Set Pull Request number
 PR_NUMBER = GITHUB_CONTEXT["issue"]["number"]
-
-# Get Pull Request info
-pr_info = api.pulls.get(REPOSITORY.split("/")[0], REPOSITORY.split("/")[-1], PR_NUMBER)
-
-# Set fork owner
-FORK_OWNER = pr_info.head.user.login
-
-# Set Pull Request branch name
-PR_BRANCH_NAME = pr_info.head.ref
 
 # Set git config
 _ = run_cmd(["git", "config", "user.name", AUTHOR_NAME])
@@ -72,43 +60,9 @@ _ = run_cmd(
 # Change working directory
 os.chdir(REPO_NAME)
 
-# Add fork as remote
+# Fetch the existing merge ref and create a new local branch
 _ = run_cmd(
-    [
-        "git",
-        "remote",
-        "add",
-        "fork",
-        f"https://{GITHUB_TOKEN}:x-oauth-basic@github.com/{FORK_OWNER}/{REPO_NAME}.git",
-    ]
-)
-
-# Create a new branch
-_ = run_cmd(
-    [
-        "git",
-        "checkout",
-        "-b",
-        f"test-this-pr/{PR_NUMBER}",
-    ]
-)
-
-# Fetch the fork
-_ = run_cmd(
-    [
-        "git",
-        "fetch",
-        "fork",
-    ]
-)
-
-# Merge PR branch into new branch
-_ = run_cmd(
-    [
-        "git",
-        "merge",
-        f"fork/{PR_BRANCH_NAME}",
-    ]
+    ["git", "fetch", "origin", f"pull/{PR_NUMBER}/merge:test-this-pr/{PR_NUMBER}"]
 )
 
 # Push new branch to parent repo
@@ -121,6 +75,9 @@ _ = run_cmd(
         f"test-this-pr/{PR_NUMBER}",
     ]
 )
+
+# Initialise GhApi
+api = GhApi(token=GITHUB_TOKEN)
 
 # Add comment to the old PR
 api.issues.create_comment(
