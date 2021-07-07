@@ -38,9 +38,6 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
     if VAR is None:
         raise ValueError(f"{VARNAME} must be set")
 
-# Initialise GhApi
-api = GhApi(token=GITHUB_TOKEN)
-
 # Set repository name
 REPO_NAME = REPOSITORY.split("/")[-1]
 
@@ -83,6 +80,9 @@ _ = run_cmd(
         f"test-this-pr/{PR_NUMBER}",
     ]
 )
+
+# Initialise GhApi
+api = GhApi(token=GITHUB_TOKEN)
 
 # Add comment to the old PR
 api.issues.create_comment(
