@@ -8,10 +8,10 @@ inputs:
     description: "The repository id in the form 'owner/project'"
     required: false
     default: ${{ github.repository }}
-  github-context:
-    description: "The workflow context from the issue that triggered the run"
+  pr-number:
+    description: "The number of the Pull Request to be tested"
     required: false
-    default: ${{ toJson(github.event) }}
+    default: ${{ github.event.issue.number }}
   github-token:
     description: |
       A GitHub token with enough permissions to write to the parent repo
@@ -32,7 +32,7 @@ runs:
   image: "Dockerfile"
   args:
     - ${{ inputs.repository }}
-    - ${{ inputs.github-context }}
+    - ${{ inputs.pr-number }}
     - ${{ inputs.github-token }}
     - ${{ inputs.author-name }}
     - ${{ inputs.author-email }}
