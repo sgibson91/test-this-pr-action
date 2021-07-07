@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Install git
-RUN apt-get -y update && apt-get -y install git
+RUN apt-get -y update && apt-get -y --no-install-recommends install git
 
 # Create and set the 'app' working directory
 RUN mkdir /app
