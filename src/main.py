@@ -1,5 +1,4 @@
 import os
-import json
 from utils import run_cmd
 from ghapi.all import GhApi
 from ghapi.actions import github_token
