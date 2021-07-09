@@ -4,6 +4,10 @@ description: |
   Copy a PR from a forked repo into a branch on the parent repo so that
   workflows that require secrets can be run
 inputs:
+  access-token:
+    description: |
+      A GitHub access token with enough permissions to write to the parent repo
+    required: true
   repository:
     description: "The repository id in the form 'owner/project'"
     required: false
@@ -12,27 +16,10 @@ inputs:
     description: "The number of the Pull Request to be tested"
     required: false
     default: ${{ github.event.issue.number }}
-  github-token:
-    description: |
-      A GitHub token with enough permissions to write to the parent repo
-    required: false
-    default: ${{ github.token }}
-  author-name:
-    description: |
-      The name of the user that will be displayed as the author of the commit
-    required: false
-    default: "CI User"
-  author-email:
-    description: |
-      The email of the user that will be displayed as the author of the commit
-    required: false
-    default: "ci-user@github.local"
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
+    - ${{ inputs.access-token }}
     - ${{ inputs.repository }}
     - ${{ inputs.pr-number }}
-    - ${{ inputs.github-token }}
-    - ${{ inputs.author-name }}
-    - ${{ inputs.author-email }}
