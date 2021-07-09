@@ -4,29 +4,21 @@ from ghapi.all import GhApi
 from ghapi.actions import github_token
 
 # Set required environment variables
+ACCESS_TOKEN = (
+    github_token()
+    if "INPUT_ACCESS-TOKEN" not in os.environ
+    else os.environ["INPUT_ACCESS-TOKEN"]
+)
 REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
 PR_NUMBER = os.environ["INPUT_PR-NUMBER"] if "INPUT_PR-NUMBER" in os.environ else None
-GITHUB_TOKEN = (
-    github_token()
-    if "INPUT_GITHUB-TOKEN" not in os.environ
-    else os.environ["INPUT_GITHUB-TOKEN"]
-)
-AUTHOR_NAME = (
-    os.environ["INPUT_AUTHOR-NAME"] if "INPUT_AUTHOR-NAME" in os.environ else None
-)
-AUTHOR_EMAIL = (
-    os.environ["INPUT_AUTHOR-EMAIL"] if "INPUT_AUTHOR-EMAIL" in os.environ else None
-)
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
+    "ACCESS_TOKEN": ACCESS_TOKEN,
     "REPOSITORY": REPOSITORY,
     "PR_NUMBER": PR_NUMBER,
-    "GITHUB_TOKEN": GITHUB_TOKEN,
-    "AUTHOR_NAME": AUTHOR_NAME,
-    "AUTHOR_EMAIL": AUTHOR_EMAIL,
 }
 
 for VARNAME, VAR in REQUIRED_ENV_VARS.items():
@@ -36,16 +28,12 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
 # Set repository name
 REPO_NAME = REPOSITORY.split("/")[-1]
 
-# Set git config
-_ = run_cmd(["git", "config", "--global", "user.name", AUTHOR_NAME])
-_ = run_cmd(["git", "config", "--global", "user.email", AUTHOR_EMAIL])
-
 # Clone the parent repo
 _ = run_cmd(
     [
         "git",
         "clone",
-        f"https://{GITHUB_TOKEN}:x-oauth-basic@github.com/{REPOSITORY}.git",
+        f"https://{ACCESS_TOKEN}:x-oauth-basic@github.com/{REPOSITORY}.git",
     ]
 )
 
@@ -69,7 +57,7 @@ _ = run_cmd(
 )
 
 # Initialise GhApi
-api = GhApi(token=GITHUB_TOKEN)
+api = GhApi(token=ACCESS_TOKEN)
 
 # Add comment to the old PR
 api.issues.create_comment(
