@@ -7,15 +7,16 @@ However if you have tests that require secrets, such as deploying to staging env
 
 This repository is a Docker-based GitHub Action that will push the changes of a pull request opened from a fork into a new branch in the parent repo so test workflows that require secrets can be executed.
 
+You will need to create a GitHub access token with enough permissions to write to the parent repo and save this as a repository secret.
+If the parent repo is public, `public_repo` should be enough.
+
 ## Inputs
 
 | Input variable | Description | Required? | Default value |
 | :--- | :--- | :--- | :--- |
+| `access-token` | A GitHub token with read/write access to the parent repository | Yes |  |
 | `repository` | The name of the parent repository in the form `owner/project` | No | `${{ github.repository }}` |
 | `pr-number` | The number of the Pull Request to be tested | No | `${{ github.event.issue.number }}` |
-| `github-token` | A GitHub token with read/write access to the parent repository | No | `${{ github.token }}` |
-| `author-name` | The name of the user that will be displayed as the author of the commit | No | `CI User` |
-| `author-email` | The email of the user that will be displayed as the author of the commit | No | `ci-user@github.local` |
 
 ## Example Usage
 
@@ -44,4 +45,6 @@ jobs:
 
     steps:
       - uses: sgibson91/test-this-pr-action@main
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
 ```
