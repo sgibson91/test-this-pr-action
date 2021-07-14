@@ -35,6 +35,9 @@ def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
         return wrapped
 
     return wrapper
+
+
+@logger_wraps()
 def run_cmd(cmd: list) -> dict:
     """Use Popen to run a bash command in a sub-shell
 
@@ -45,6 +48,8 @@ def run_cmd(cmd: list) -> dict:
         dict: The output of the command, including status code and error
               messages
     """
+    logger.info("Executing command...")
+
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     msgs = proc.communicate()
@@ -56,6 +61,7 @@ def run_cmd(cmd: list) -> dict:
     }
 
     if result["returncode"] != 0:
+        logger.error("Command execution failed!")
         raise RuntimeError(result["err_msg"])
 
     return result
