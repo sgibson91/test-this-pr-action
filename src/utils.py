@@ -9,7 +9,6 @@ from copy import deepcopy
 
 
 def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
-
     def wrapper(func):
         name = func.__name__
 
@@ -22,10 +21,14 @@ def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
             # and `git remote set-url` commands
             clean_args = deepcopy(args)
             if ("clone" in clean_args[0]) or ("set-url" in clean_args[0]):
-                clean_args[0][-1] = re.sub(r"(?<=\/\/)(.*?)(?=:)", "***", clean_args[0][-1])
+                clean_args[0][-1] = re.sub(
+                    r"(?<=\/\/)(.*?)(?=:)", "***", clean_args[0][-1]
+                )
 
             if entry:
-                logger_.log(level, "Entering '{}' (args={}, kwargs{})", name, clean_args, kwargs)
+                logger_.log(
+                    level, "Entering '{}' (args={}, kwargs{})", name, clean_args, kwargs
+                )
             result = func(*args, **kwargs)
 
             if exit:

@@ -59,7 +59,9 @@ _ = run_cmd(
 )
 
 # Fetch the existing merge ref and create a new local branch
-logger.info(f"Fetching details for PR #{PR_NUMBER} and adding to branch test-this-pr/{PR_NUMBER}")
+logger.info(
+    f"Fetching details for PR #{PR_NUMBER} and adding to branch test-this-pr/{PR_NUMBER}"
+)
 _ = run_cmd(
     ["git", "fetch", "origin", f"pull/{PR_NUMBER}/merge:test-this-pr/{PR_NUMBER}"]
 )
