@@ -46,6 +46,18 @@ _ = run_cmd(
 logger.info(f"Changing into dir: {REPO_NAME}")
 os.chdir(REPO_NAME)
 
+# Set remote URL to use credentials
+logger.info("Updating remote to use credentials when pushing...")
+_ = run_cmd(
+    [
+        "git",
+        "remote",
+        "set-url",
+        "origin",
+        f"https://{ACCESS_TOKEN}:x-oauth-basic@github.com/{REPOSITORY}.git",
+    ]
+)
+
 # Fetch the existing merge ref and create a new local branch
 logger.info(f"Fetching details for PR #{PR_NUMBER} and adding to branch test-this-pr/{PR_NUMBER}")
 _ = run_cmd(
