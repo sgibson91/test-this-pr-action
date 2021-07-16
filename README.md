@@ -39,7 +39,7 @@ jobs:
       contains(github.event.comment.body, '/test-this-pr') &&
       # Check the comment author has appropriate permissions
       contains(
-        ['OWNER', 'COLLABORATOR', 'CONTRIBUTOR', 'MEMBER'],
+        ['OWNER', 'COLLABORATOR', 'MEMBER'],
         github.event.comment.author_association
       )
 
