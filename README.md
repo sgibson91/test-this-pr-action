@@ -22,6 +22,8 @@ If the parent repo is public, `public_repo` should be enough.
 
 The below example demonstrates how to trigger the GitHub Action by leaving a comment containing `/test-this-pr` on a pull request, providing the comment author has appropriate permissions on the parent repository.
 
+**NOTE: These permissions are provided as an _example only_ and users should carefully read the [GitHub documentation](https://docs.github.com/en/graphql/reference/enums#commentauthorassociation) before deciding which roles to use.**
+
 ```yaml
 name: Move forked-PR into parent repo for testing
 
@@ -39,7 +41,7 @@ jobs:
       contains(github.event.comment.body, '/test-this-pr') &&
       # Check the comment author has appropriate permissions
       contains(
-        ['OWNER', 'COLLABORATOR', 'CONTRIBUTOR', 'MEMBER'],
+        ['OWNER', 'COLLABORATOR', 'MEMBER'],
         github.event.comment.author_association
       )
 
