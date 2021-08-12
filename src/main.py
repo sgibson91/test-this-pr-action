@@ -7,19 +7,19 @@ from ghapi.actions import github_token
 # Set required environment variables
 ACCESS_TOKEN = (
     github_token()
-    if "INPUT_ACCESS-TOKEN" not in os.environ
-    else os.environ["INPUT_ACCESS-TOKEN"]
+    if "INPUT_ACCESS_TOKEN" not in os.environ
+    else os.environ["INPUT_ACCESS_TOKEN"]
 )
 REPOSITORY = (
     os.environ["INPUT_REPOSITORY"] if "INPUT_REPOSITORY" in os.environ else None
 )
-PR_NUMBER = os.environ["INPUT_PR-NUMBER"] if "INPUT_PR-NUMBER" in os.environ else None
+PR_NUMBER = os.environ["INPUT_PR_NUMBER"] if "INPUT_PR_NUMBER" in os.environ else None
 
 # Check required environment variables are set
 REQUIRED_ENV_VARS = {
-    "ACCESS_TOKEN": ACCESS_TOKEN,
-    "REPOSITORY": REPOSITORY,
-    "PR_NUMBER": PR_NUMBER,
+    "INPUT_ACCESS_TOKEN": ACCESS_TOKEN,
+    "INPUT_REPOSITORY": REPOSITORY,
+    "INPUT_PR_NUMBER": PR_NUMBER,
 }
 
 logger.info("Checking environment variables...")
