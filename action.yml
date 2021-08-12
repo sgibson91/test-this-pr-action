@@ -4,7 +4,7 @@ description: |
   Copy a PR from a forked repo into a branch on the parent repo so that
   workflows that require secrets can be run
 inputs:
-  access-token:
+  access_token:
     description: |
       A GitHub access token with enough permissions to write to the parent repo
     required: true
@@ -12,7 +12,7 @@ inputs:
     description: "The repository id in the form 'owner/project'"
     required: false
     default: ${{ github.repository }}
-  pr-number:
+  pr_number:
     description: "The number of the Pull Request to be tested"
     required: false
     default: ${{ github.event.issue.number }}
@@ -20,6 +20,6 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - ${{ inputs.access-token }}
+    - ${{ inputs.access_token }}
     - ${{ inputs.repository }}
-    - ${{ inputs.pr-number }}
+    - ${{ inputs.pr_number }}
