@@ -14,9 +14,9 @@ If the parent repo is public, `public_repo` should be enough.
 
 | Input variable | Description | Required? | Default value |
 | :--- | :--- | :--- | :--- |
-| `access-token` | A GitHub token with read/write access to the parent repository | Yes |  |
+| `access_token` | A GitHub token with read/write access to the parent repository | Yes |  |
 | `repository` | The name of the parent repository in the form `owner/project` | No | `${{ github.repository }}` |
-| `pr-number` | The number of the Pull Request to be tested | No | `${{ github.event.issue.number }}` |
+| `pr_number` | The number of the Pull Request to be tested | No | `${{ github.event.issue.number }}` |
 
 ## Example Usage
 
@@ -41,12 +41,12 @@ jobs:
       contains(github.event.comment.body, '/test-this-pr') &&
       # Check the comment author has appropriate permissions
       contains(
-        ['OWNER', 'COLLABORATOR', 'MEMBER'],
-        github.event.comment.author_association
+        github.event.comment.author_association,
+        ['OWNER', 'COLLABORATOR', 'MEMBER']
       )
 
     steps:
       - uses: sgibson91/test-this-pr-action@main
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access_token: ${{ secrets.ACCESS_TOKEN }}
 ```
