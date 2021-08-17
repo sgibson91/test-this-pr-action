@@ -5,5 +5,4 @@ tests
 
 # Files to be ignored
 dev-requirements.txt
-LICENSE
 README.md

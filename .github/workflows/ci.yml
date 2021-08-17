@@ -6,37 +6,13 @@ on:
       - main
     paths:
       - "**/*.py"
-      - "./Dockerfile"
   pull_request:
     branches:
       - main
 
 jobs:
-#   docker-lint:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout repo
-#         uses: actions/checkout@master
-
-#       - name: Lint Dockerfile
-#         uses: luke142367/Docker-Lint-Action@v1.0.0
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-#   docker-test-build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout repo
-#         uses: actions/checkout@master
-
-#       - name: Test the Docker build
-#         uses: docker/build-push-action@v2
-
   lint-and-format:
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -63,30 +39,3 @@ jobs:
       - name: Run ${{ matrix.tool }}
         run: |
           ${{ matrix.tool }} ${{ matrix.args }} src/
-
-  run-tests:
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.7, 3.8, 3.9]
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Install Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: |
-          pip install -U pip
-          pip install -r dev-requirements.txt
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: |
-          python -m pytest -vvv

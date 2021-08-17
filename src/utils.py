@@ -1,70 +1,57 @@
-"""
-Helper functions
-"""
-import re
-import functools
-import subprocess
-from loguru import logger
-from copy import deepcopy
+import requests
 
 
-def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
-    def wrapper(func):
-        name = func.__name__
-
-        @functools.wraps(func)
-        def wrapped(*args, **kwargs):
-            logger_ = logger.opt(depth=1)
-
-            # Prevent the logger from leaking ACCESS_TOKEN using regex to select
-            # all characters between 'https://' and ':x-oauth-basic' in `git clone`
-            # and `git remote set-url` commands
-            clean_args = deepcopy(args)
-            if ("clone" in clean_args[0]) or ("set-url" in clean_args[0]):
-                clean_args[0][-1] = re.sub(
-                    r"(?<=\/\/)(.*?)(?=:)", "***", clean_args[0][-1]
-                )
-
-            if entry:
-                logger_.log(
-                    level, "Entering '{}' (args={}, kwargs{})", name, clean_args, kwargs
-                )
-            result = func(*args, **kwargs)
-
-            if exit:
-                logger_.log(level, "Exiting '{}' (result={})", name, result)
-            return result
-
-        return wrapped
-
-    return wrapper
-
-
-@logger_wraps()
-def run_cmd(cmd: list) -> dict:
-    """Use Popen to run a bash command in a sub-shell
-
+def get_request(
+    url: str,
+    headers: dict = {},
+    params: dict = {},
+    output: str = "default",
+):
+    """Send a GET request to an HTTP API endpoint
     Args:
-        cmd (list): The bash command to run
-
-    Returns:
-        dict: The output of the command, including status code and error
-              messages
+        url (str): The URL to send the request to
+        headers (dict, optional): A dictionary of headers to send with the
+            request. Defaults to an empty dict.
+        params (dict, optional): A dictionary of parameters to send with the
+            request. Defaults to an empty dict.
+        output (str): The format in which to output the response in. Currently
+            accepts 'default', 'json' or 'text'. 'default' does not apply any
+            format parsing of the response.
     """
-    logger.info("Executing command...")
+    accepted_formats = ["default", "json", "text"]
+    if output not in accepted_formats:
+        raise ValueError(
+            "Invalid output format. Please choose one of the following options: %s"
+            % accepted_formats
+        )
 
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    resp = requests.get(url, headers=headers, params=params)
 
-    msgs = proc.communicate()
+    if not resp:
+        raise RuntimeError(resp.text)
 
-    result = {
-        "returncode": proc.returncode,
-        "output": msgs[0].decode(encoding=("utf-8")).strip("\n"),
-        "err_msg": msgs[1].decode(encoding=("utf-8")).strip("\n"),
-    }
+    if output == "default":
+        return resp
+    elif output == "json":
+        return resp.json()
+    elif output == "text":
+        return resp.text
+    else:
+        raise NotImplementedError(
+            "Requested output format is not yet implemented: %s" % output
+        )
 
-    if result["returncode"] != 0:
-        logger.error("Command execution failed!")
-        raise RuntimeError(result["err_msg"])
 
-    return result
+def post_request(url: str, headers: dict = {}, json: dict = {}) -> None:
+    """Send a POST request to an HTTP API endpoint
+    Args:
+        url (str): The URL to send the request to
+        headers (dict, optional): A dictionary of any headers to send with the
+            request. Defaults to an empty dict.
+        json (dict, optional): A dictionary containing JSON payload to send with
+            the request. Defaults to an empty dict.
+    """
+    resp = requests.post(url, headers=headers, json=json)
+
+    if not resp:
+        raise RuntimeError(resp.text)
