@@ -42,9 +42,7 @@ def get_request(
         )
 
 
-def post_request(
-    url: str, headers: dict = {}, json: dict = {}
-) -> None:
+def post_request(url: str, headers: dict = {}, json: dict = {}) -> None:
     """Send a POST request to an HTTP API endpoint
     Args:
         url (str): The URL to send the request to
