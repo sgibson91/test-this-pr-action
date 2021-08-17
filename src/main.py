@@ -22,21 +22,32 @@ for VARNAME, VAR in REQUIRED_ENV_VARS.items():
     if VAR is None:
         raise ValueError(f"{VARNAME} must be set!")
 
-# API URL and default header
+# API URL, default header and branch ref
 API_URL = "https://api.github.com"
 HEADER = {
     "Accept": "application/vnd.github.v3+json",
     "Authorization": f"token {ACCESS_TOKEN}",
 }
+BRANCH_REF = f"heads/test-this-pr/{PR_NUMBER}"
+
+# See if BRANCH_REF already exists
+match_ref_url = f"{API_URL}/repos/{REPOSITORY}/git/matching-refs/{BRANCH_REF}"
+match_resp = get_request(match_ref_url, headers=HEADER, output="json")
 
 # Fetch merge ref
 merge_ref_url = f"{API_URL}/repos/{REPOSITORY}/git/ref/pull/{PR_NUMBER}/merge"
-resp = get_request(merge_ref_url, headers=HEADER, output="json")
+merge_resp = get_request(merge_ref_url, headers=HEADER, output="json")
 
-# Create new branch ref
-new_branch_ref_url = f"{API_URL}/repos/{REPOSITORY}/git/refs"
-body = {"ref": f"refs/heads/test-this-pr/{PR_NUMBER}", "sha": resp["object"]["sha"]}
-post_request(new_branch_ref_url, headers=HEADER, json=body)
+if len(match_resp) > 0:
+    # BRANCH_REF already exists, so we should update the ref
+    branch_ref_url = f"{API_URL}/repos/{REPOSITORY}/git/refs/{BRANCH_REF}"
+    body = {"sha": merge_resp["object"]["sha"], "force": True}
+else:
+    # BRANCH_REF does not exist, so we should create the ref
+    branch_ref_url = f"{API_URL}/repos/{REPOSITORY}/git/refs"
+    body = {"ref": f"refs/{BRANCH_REF}", "sha": merge_resp["object"]["sha"]}
+
+post_request(branch_ref_url, headers=HEADER, json=body)
 
 # Create a comment on the PR
 issue_url = f"{API_URL}/repos/{REPOSITORY}/issues/{PR_NUMBER}/comments"
