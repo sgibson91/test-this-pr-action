@@ -43,7 +43,7 @@ def get_request(
 
 
 def post_request(
-    url: str, headers: dict = {}, json: dict = {}, return_json: bool = True
+    url: str, headers: dict = {}, json: dict = {}
 ) -> None:
     """Send a POST request to an HTTP API endpoint
     Args:
@@ -52,13 +52,8 @@ def post_request(
             request. Defaults to an empty dict.
         json (dict, optional): A dictionary containing JSON payload to send with
             the request. Defaults to an empty dict.
-        return_json (bool, optional): Return the JSON payload response.
-            Defaults to False.
     """
     resp = requests.post(url, headers=headers, json=json)
 
     if not resp:
         raise RuntimeError(resp.text)
-
-    if return_json:
-        return resp.json()
