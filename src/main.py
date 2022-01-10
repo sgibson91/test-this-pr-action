@@ -1,6 +1,6 @@
 import os
-from utils import get_request, post_request
 
+from utils import get_request, post_request
 
 # Set required environment variables
 ACCESS_TOKEN = (
