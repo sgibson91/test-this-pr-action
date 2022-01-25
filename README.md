@@ -1,6 +1,6 @@
 # Test this PR! - Docker-based Action
 
-[![CI Tests](https://github.com/sgibson91/test-this-pr-action/actions/workflows/ci.yml/badge.svg)](https://github.com/sgibson91/test-this-pr-action/actions/workflows/ci.yml) [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/sgibson91/test-this-pr-action/main.svg)](https://results.pre-commit.ci/latest/github/sgibson91/test-this-pr-action/main)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/sgibson91/test-this-pr-action/main.svg)](https://results.pre-commit.ci/latest/github/sgibson91/test-this-pr-action/main)
 
 The fork --> develop --> open pull request workflow is a popular one across large software projects.
 However if you have tests that require secrets, such as deploying to staging environments before production, this workflow can be a hindrance when managing that workflow through GitHub Actions, since the runner doesn't automatically grant access to repository secrets.
