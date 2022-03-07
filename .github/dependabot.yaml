@@ -4,14 +4,23 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "00:00"
+      timezone: "Europe/London"
   # Maintain dependencies for pip
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "00:00"
+      timezone: "Europe/London"
   # Maintain dependencies for docker
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "00:00"
+      timezone: "Europe/London"
