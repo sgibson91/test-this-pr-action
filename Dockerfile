@@ -1,5 +1,5 @@
 # Use a Python 3.9 slim image
-FROM python:3.10.5-slim
+FROM python:3.10.6-slim
 
 # Create and set the 'app' working directory
 RUN mkdir /app
