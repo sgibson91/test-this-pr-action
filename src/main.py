@@ -51,9 +51,7 @@ post_request(branch_ref_url, headers=HEADER, json=body)
 
 # Create a comment on the PR
 issue_url = f"{API_URL}/repos/{REPOSITORY}/issues/{PR_NUMBER}/comments"
-body = {
-    "body": f"""
+body = {"body": f"""
 This Pull Request is now being tested :tada: See the test progress in [GitHub Actions](https://github.com/{REPOSITORY}/actions?query=branch%3Atest-this-pr%2F{PR_NUMBER}).
-"""
-}
+"""}
 post_request(issue_url, headers=HEADER, json=body)
